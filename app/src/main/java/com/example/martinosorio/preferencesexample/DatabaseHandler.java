@@ -105,7 +105,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Updating single contact
     public int updateContact(Contact contact) {
-        return 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, contact.getName());
+        values.put(KEY_PH_NO, contact.getPhoneNumber());
+
+        return db.update(TABLE_CONTACTS,
+                values,
+                KEY_ID + " = ?",
+                new String[] { String.valueOf(contact.getID()) }
+        );
     }
 
     // Deleting single contact
