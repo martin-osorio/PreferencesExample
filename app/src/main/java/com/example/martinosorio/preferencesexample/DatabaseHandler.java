@@ -96,7 +96,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Getting contacts Count
     public int getContactsCount() {
-        return 0;
+        String query = "SELECT * FROM " + TABLE_CONTACTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.close();
+        return cursor.getCount();
     }
 
     // Updating single contact
