@@ -17,4 +17,11 @@
         android:id="@+id/ET"
         android:hint="hint"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/BTN"
+        android:text="TEST DATABASE"
+        android:onClick="onTestDatabaseClick"/>
+
 </LinearLayout>
