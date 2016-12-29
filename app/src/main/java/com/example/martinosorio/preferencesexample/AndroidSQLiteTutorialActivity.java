@@ -8,6 +8,8 @@ import android.util.Log;
 import java.util.List;
 
 public class AndroidSQLiteTutorialActivity extends Activity {
+    private static final String TAG = "molTAG";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +28,13 @@ public class AndroidSQLiteTutorialActivity extends Activity {
         db.addContact(new Contact("Karthik", "9533333333"));
 
         // Reading all contacts
-        Log.d("Reading: ", "Reading all contacts..");
+        Log.d(TAG, "onCreate: Reading:: Reading all contacts...");
         List<Contact> contacts = db.getAllContacts();
 
         for (Contact cn : contacts) {
             String log = "Id: "+cn.getID()+" ,Name: " + cn.getName() + " ,Phone: " + cn.getPhoneNumber();
             // Writing Contacts to log
-            Log.d("Name: ", log);
+            Log.d(TAG, "onCreate: Name::" + log);
         }
     }
 }
