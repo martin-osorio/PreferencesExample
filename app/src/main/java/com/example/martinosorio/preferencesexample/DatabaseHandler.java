@@ -1,9 +1,12 @@
 package com.example.martinosorio.preferencesexample;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,18 +55,44 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Adding new contact
     public void addContact(Contact contact) {
-        ;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, contact.getName());
+        values.put(KEY_PH_NO, contact.getPhoneNumber());
+        db.insert(TABLE_CONTACTS, null, values);
+        db.close();
     }
 
     // Getting single contact
     public Contact getContact(int id) {
-        return null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_CONTACTS,
+                new String[] { KEY_ID, KEY_NAME, KEY_PH_NO },
+                KEY_ID + "=?",
+                new String[] { String.valueOf(id) },
+                null, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+        Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+        return contact;
     }
 
     // Getting All Contacts
     public List<Contact> getAllContacts() {
-        return null;
+        List<Contact> contactList = new ArrayList<Contact>();
+        String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                contactList.add(new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2)));
+            } while (cursor.moveToNext());
+        }
+        return contactList;
     }
+
 
     // Getting contacts Count
     public int getContactsCount() {
